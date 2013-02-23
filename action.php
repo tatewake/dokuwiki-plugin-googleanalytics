@@ -12,7 +12,7 @@ class action_plugin_googleanalytics extends DokuWiki_Action_Plugin {
 		return array(
 			'author' => 'Terence J. Grant',
 			'email'  => 'tjgrant@tatewake.com',
-			'date'   => '2009-05-25',
+			'date'   => '2013-02-23',
 			'name'   => 'Google Analytics Plugin',
 			'desc'   => 'Plugin to embed your google analytics code for your site.',
 			'url'    => 'http://tatewake.com/wiki/projects:google_analytics_for_dokuwiki',
@@ -33,19 +33,13 @@ class action_plugin_googleanalytics extends DokuWiki_Action_Plugin {
 		if($this->getConf('dont_count_users') && $_SERVER['REMOTE_USER']) return;
 		$event->data["script"][] = array (
 		  "type" => "text/javascript",
-		  "_data" => "
-var gaJsHost = ((\"https:\" == document.location.protocol) ? \"https://ssl.\" : \"http://www.\");
-document.write(unescape(\"%3Cscript src='\" + gaJsHost + \"google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E\"));
-		  ",
+		  "_data" => "var _gaq = _gaq || []; _gaq.push(['_setAccount', '".$this->getConf('GAID')."']); _gaq.push(['_trackPageview']);"
 		);
 		$event->data["script"][] = array (
 		  "type" => "text/javascript",
-		  "_data" => "
-var pageTracker = _gat._getTracker(\"".$this->getConf('GAID')."\");
-pageTracker._initData();
-pageTracker._trackPageview();
-		  ",
+		  "_data" => "(function(){var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true; ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js'; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s); })();"
 		);
+
 	}
 }
 ?>
