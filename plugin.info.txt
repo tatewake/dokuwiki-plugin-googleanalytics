@@ -1,0 +1,8 @@
+base    googleanalytics
+author  Terence J. Grant,
+email   tjgrant@tatewake.com,
+date    2013-02-23,
+name    Google Analytics Plugin,
+desc    Plugin to embed your google analytics code for your site.,
+url     http://tatewake.com/wiki/projects:google_analytics_for_dokuwiki,
+
