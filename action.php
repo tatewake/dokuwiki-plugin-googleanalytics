@@ -45,4 +45,3 @@ class action_plugin_googleanalytics extends DokuWiki_Action_Plugin {
 
     }
 }
-?>
