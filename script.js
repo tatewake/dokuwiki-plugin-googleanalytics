@@ -1,7 +1,7 @@
 /**
  * 
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
- * @author     Gerry Weiﬂbach <gweissbach@inetsoftware.de>
+ * @author     Gerry Wei√übach <gweissbach@inetsoftware.de>
  */
 
 var googleanalytics_trackLink = function(link, prefix) {
@@ -20,23 +20,24 @@ var googleanalytics_trackEvent = function(category, action, label) {
 	}
 };
 
-(function($){
-	
-	$(function(){
-		
+var googleanalytics_registerTracking = function() {
+    
 		if ( typeof _gaq == 'undefined' ) { return; }
     	_gaq.push(['_setAllowLinker', true]);
 		
 		var expression = new RegExp("^([^\?]*)\?[^=]*$");
-		$('a.media, a.mediafile, a.interwiki, a.urlextern').each(function(){
+		jQuery('a.media:not([tracking]), a.mediafile:not([tracking]), a.interwiki:not([tracking]), a.urlextern:not([tracking])').each(function(){
 			
-			$(this).click(function(e){
+			
+			jQuery(this).click(function(e){
 				
 				googleanalytics_trackLink(this.href.replace(expression, "$1"), '/outgoing?url='); // but track full URL to be sure
 				return true;
-			});
+			}).attr('tracking');
 		});
-		
-	});
-	
+
+};
+
+(function($){
+	$(googleanalytics_registerTracking);
 })(jQuery);
