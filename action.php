@@ -10,7 +10,7 @@ class action_plugin_googleanalytics extends DokuWiki_Action_Plugin {
 	/**
 	 * Register its handlers with the DokuWiki's event controller
 	 */
-	function register(&$controller) {
+	function register(Doku_Event_Handler $controller) {
             $controller->register_hook('POPUPVIEWER_DOKUWIKI_STARTED', 'BEFORE', $this, 'popupviewer_handler');
 	    $controller->register_hook('TPL_METAHEADER_OUTPUT', 'BEFORE',  $this, '_addHeaders');
             $controller->register_hook('AJAX_CALL_UNKNOWN', 'BEFORE', $this, 'ajax_provider');
