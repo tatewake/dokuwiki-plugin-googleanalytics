@@ -1,7 +1,7 @@
 base    googleanalytics
 author  Terence J. Grant
 email   tjgrant@tatewake.com
-date    2013-02-23
+date    2014-07-15
 name    Google Analytics Plugin
 desc    Plugin to embed your google analytics code for your site.
 url     http://www.dokuwiki.org/plugin:googleanalytics
