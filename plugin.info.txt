@@ -1,0 +1,7 @@
+base googleanalytics
+author Terence J. Grant
+email  tjgrant@tatewake.com
+date 2016-02-02
+name Google Analytics for DokuWiki
+desc This tool allows you to set a code for use with Google Analytics, which allows you to track your visitors.
+url https://github.com/tatewake/dokuwiki-plugin-googleanalytics
