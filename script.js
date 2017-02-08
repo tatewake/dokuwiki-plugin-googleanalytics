@@ -26,7 +26,7 @@ if (JSINFO.ga) {
     ga('set', 'anonymizeIp', JSINFO.ga.anonymizeIp);
 
     // track pageview and action
-    ga('send', 'pageview');
+    ga('send', 'pageview', JSINFO.ga.pageview);
     ga('send', 'event', 'wiki-action', JSINFO.ga.action, JSINFO.id, {
         nonInteraction: true // this is an automatic event with the page load
     });

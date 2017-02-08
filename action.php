@@ -28,6 +28,9 @@ class action_plugin_googleanalytics extends DokuWiki_Action_Plugin {
         global $JSINFO;
         global $INFO;
         global $ACT;
+        global $QUERY;
+        global $ID;
+        global $INPUT;
 
         if(!$this->gaEnabled) return;
         $trackingId = $this->getConf('GAID');
@@ -44,12 +47,25 @@ class action_plugin_googleanalytics extends DokuWiki_Action_Plugin {
             $options['legacyCookieDomain'] = $this->getConf('domainName');
         }
 
+        // normalize the pageview
+        if($ACT == 'search') {
+            $view = '~search/?' . rawurlencode($QUERY);
+        } elseif($ACT == 'admin') {
+            $page = $INPUT->str('page');
+            $view = '~admin';
+            if($page) $view .= '/' . $page;
+        } else {
+            $view = str_replace(':', '/', $ID); // slashes needed for Content Drilldown
+        }
+        $view = DOKU_REL . $view; // prepend basedir, allows logging multiple dir based animals in one tracker
+
         $JSINFO['ga'] = array(
             'trackingId' => $trackingId,
             'anonymizeIp' => (bool) $this->getConf('anonymize'),
             'action' => act_clean($ACT),
             'trackOutboundLinks' => (bool) $this->getConf('track_links'),
             'options' => $options,
+            'pageview' => $view
         );
     }
 }
