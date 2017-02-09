@@ -1,41 +1,96 @@
-<?php 
+<?php
 if(!defined('DOKU_INC')) die();
-if(!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN',DOKU_INC.'lib/plugins/');
-require_once(DOKU_PLUGIN.'action.php');
+if(!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN', DOKU_INC . 'lib/plugins/');
 
+/**
+ * Class action_plugin_googleanalytics
+ */
 class action_plugin_googleanalytics extends DokuWiki_Action_Plugin {
 
-	/**
-	 * return some info
-	 */
-	function getInfo(){
-		return array(
-			'author' => 'Terence J. Grant',
-			'email'  => 'tjgrant@tatewake.com',
-			'date'   => '2014-06-14',
-			'name'   => 'Google Analytics Plugin',
-			'desc'   => 'Plugin to embed your google analytics code for your site. Now updated to support the new Google Universal Analytics.',
-			'url'    => 'https://www.dokuwiki.org/plugin:googleanalytics',
-		);
-	}
-	
-	/**
-	 * Register its handlers with the DokuWiki's event controller
-	 */
-	function register(Doku_Event_Handler $controller) {
-	    $controller->register_hook('TPL_METAHEADER_OUTPUT', 'BEFORE',  $this, '_addHeaders');
-	}
+    private $gaEnabled = true;
 
-	function _addHeaders (&$event, $param) {
-		global $INFO;
-		if(!$this->getConf('GAID')) return;
-		if($this->getConf('dont_count_admin') && $INFO['isadmin']) return;
-		if($this->getConf('dont_count_users') && $_SERVER['REMOTE_USER']) return;
-		$event->data["script"][] = array (
-		  "type" => "text/javascript",
-		  "_data" => "(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create', '". $this->getConf('GAID') ."');ga('send', 'pageview');"
-		);
+    /**
+     * Register its handlers with the DokuWiki's event controller
+     *
+     * @param Doku_Event_Handler $controller
+     */
+    function register(Doku_Event_Handler $controller) {
+        $controller->register_hook('DOKUWIKI_STARTED', 'AFTER', $this, 'gaConfig');
+    }
 
-	}
+    /**
+     * Initialize the Google Analytics config
+     *
+     * @param Doku_Event $event
+     * @param array $param
+     */
+    public function gaConfig(Doku_Event $event, $param) {
+        global $JSINFO;
+        global $INFO;
+        global $ACT;
+
+        if(!$this->gaEnabled) return;
+        $trackingId = $this->getConf('GAID');
+        if(!$trackingId) return;
+        if($this->getConf('dont_count_admin') && $INFO['isadmin']) return;
+        if($this->getConf('dont_count_users') && $_SERVER['REMOTE_USER']) return;
+        act_clean($ACT);
+
+        $options = array();
+        if($this->getConf('track_users') && $_SERVER['REMOTE_USER']) {
+            $options['userId'] = md5(auth_cookiesalt() . 'googleanalytics' . $_SERVER['REMOTE_USER']);
+        }
+        if($this->getConf('domainName')) {
+            $options['cookieDomain'] = $this->getConf('domainName');
+            $options['legacyCookieDomain'] = $this->getConf('domainName');
+        }
+
+        $JSINFO['ga'] = array(
+            'trackingId' => $trackingId,
+            'anonymizeIp' => (bool) $this->getConf('anonymize'),
+            'action' => $ACT,
+            'trackOutboundLinks' => (bool) $this->getConf('track_links'),
+            'options' => $options,
+            'pageview' => $this->getPageView(),
+        );
+    }
+
+    /**
+     * normalize the pageview
+     *
+     * @return string
+     */
+    protected function getPageView() {
+        global $QUERY;
+        global $ID;
+        global $INPUT;
+        global $ACT;
+
+        // clean up parameters to log
+        $params = $_GET;
+        if(isset($params['do'])) unset($params['do']);
+        if(isset($params['id'])) unset($params['id']);
+
+        // decide on virtual views
+        if($ACT == 'search') {
+            $view = '~search/';
+            $params['q'] = $QUERY;
+        } elseif($ACT == 'admin') {
+            $page = $INPUT->str('page');
+            $view = '~admin';
+            if($page) $view .= '/' . $page;
+            if(isset($params['page'])) unset($params['page']);
+        } else {
+            $view = str_replace(':', '/', $ID); // slashes needed for Content Drilldown
+        }
+
+        // prepend basedir, allows logging multiple dir based animals in one tracker
+        $view = DOKU_REL . $view;
+
+        // append query parameters
+        $query = http_build_query($params, '', '&');
+        if($query) $view .= '?' . $query;
+
+        return $view;
+    }
 }
-?>
