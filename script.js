@@ -38,14 +38,15 @@ if (JSINFO.ga) {
         jQuery(function () {
             // https://support.google.com/analytics/answer/1136920?hl=en
             jQuery('a.urlextern, a.interwiki').click(function (e) {
-                e.preventDefault();
                 var url = this.href;
-                ga('send', 'event', 'outbound', 'click', url, {
-                    'transport': 'beacon',
-                    'hitCallback': function () {
-                        document.location = url;
-                    }
-                });
+                var hitCallback = function(){document.location = url;};
+                if(ga && ga.loaded){
+                    e.preventDefault();
+                    ga('send', 'event', 'outbound', 'click', url, {
+                        'transport': 'beacon',
+                        'hitCallback': hitCallback
+                    });
+                }
             });
         });
     }
