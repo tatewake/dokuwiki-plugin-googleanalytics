@@ -41,7 +41,7 @@ if (JSINFO.ga) {
                 var url = this.href;
                 var hitCallback = function(){document.location = url;};
                 if(ga && ga.loaded){
-                    e.preventDefault();
+                    // e.preventDefault(); // Prevent a target=_blank on the link to work
                     ga('send', 'event', 'outbound', 'click', url, {
                         'transport': 'beacon',
                         'hitCallback': hitCallback
