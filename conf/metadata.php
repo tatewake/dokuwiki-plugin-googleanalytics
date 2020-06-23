@@ -7,3 +7,4 @@ $meta['anonymize'] = array('onoff');
 $meta['track_users'] = array('onoff');
 $meta['track_links'] = array('onoff');
 $meta['domainName'] = array('string');
+$meta['debug'] = array('onoff');

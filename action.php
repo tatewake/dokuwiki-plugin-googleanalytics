@@ -52,6 +52,7 @@ class action_plugin_googleanalytics extends DokuWiki_Action_Plugin {
             'trackOutboundLinks' => (bool) $this->getConf('track_links'),
             'options' => $options,
             'pageview' => $this->getPageView(),
+            'debug' => (bool) $this->getConf('debug')
         );
     }
 
