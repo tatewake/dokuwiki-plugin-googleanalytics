@@ -45,6 +45,7 @@ class action_plugin_googleanalytics extends DokuWiki_Action_Plugin {
             $options['legacyCookieDomain'] = $this->getConf('domainName');
         }
 
+        global $conf;
         $JSINFO['ga'] = array(
             'trackingId' => $trackingId,
             'anonymizeIp' => (bool) $this->getConf('anonymize'),
@@ -52,6 +53,7 @@ class action_plugin_googleanalytics extends DokuWiki_Action_Plugin {
             'trackOutboundLinks' => (bool) $this->getConf('track_links'),
             'options' => $options,
             'pageview' => $this->getPageView(),
+            'debug' => (bool) $conf['allowdebug']
         );
     }
 

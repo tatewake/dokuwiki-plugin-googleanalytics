@@ -10,8 +10,8 @@ if (JSINFO.ga) {
         i['GoogleAnalyticsObject'] = r;
         //noinspection CommaExpressionJS
         i[r] = i[r] || function () {
-                (i[r].q = i[r].q || []).push(arguments)
-            }, i[r].l = 1 * new Date();
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date();
         //noinspection CommaExpressionJS
         a = s.createElement(o),
             m = s.getElementsByTagName(o)[0];
@@ -33,21 +33,39 @@ if (JSINFO.ga) {
         nonInteraction: true // this is an automatic event with the page load
     });
 
+    // The hit payload is also send to the console
+    // https://developers.google.com/analytics/devguides/collection/analyticsjs/tasks#overriding_a_task
+    if (JSINFO.ga.debug) {
+
+        ga(function(tracker) {
+
+            // Grab a reference to the default sendHitTask function.
+            var originalSendHitTask = tracker.get('sendHitTask');
+
+            // Overwrite and add an output to the console
+            tracker.set( 'sendHitTask', function (model) {
+                originalSendHitTask(model);
+                console.log("Doku Google Analytics Plugin Debug: Hit Payload: " + model.get('hitPayload'));
+            });
+
+        });
+
+    }
+
     // track outgoing links, once the document was loaded
     if (JSINFO.ga.trackOutboundLinks) {
+
         jQuery(function () {
             // https://support.google.com/analytics/answer/1136920?hl=en
-            jQuery('a.urlextern, a.interwiki').click(function (e) {
+            jQuery('a.urlextern, a.interwiki').click(function () {
                 var url = this.href;
-                var hitCallback = function(){document.location = url;};
-                if(ga && ga.loaded){
-                    e.preventDefault();
+                if (ga && ga.loaded) {
                     ga('send', 'event', 'outbound', 'click', url, {
-                        'transport': 'beacon',
-                        'hitCallback': hitCallback
+                        'transport': 'beacon'
                     });
                 }
             });
         });
+
     }
 }
