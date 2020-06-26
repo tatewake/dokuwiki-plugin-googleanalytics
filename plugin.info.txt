@@ -1,7 +1,7 @@
 base    googleanalytics
 author  Terence J. Grant
 email   tjgrant@tatewake.com
-date    2019-05-21
-name    Google Analytics Plugin
+date    2020-06-25
+name    Google Analytics Plugin 1.0.0
 desc    Plugin to embed your Google Analytics code for your site, which allows you to track your visitors.
 url     https://www.dokuwiki.org/plugin:googleanalytics
