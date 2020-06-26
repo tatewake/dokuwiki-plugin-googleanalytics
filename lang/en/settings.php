@@ -6,5 +6,3 @@ $lang['anonymize'] = 'Send anonymized IP addresses to Google.';
 $lang['track_users'] = 'Track logged in users across different devices. Needs <a href="https://support.google.com/analytics/answer/3123662?hl=en">user tracking</a> enabled. Users will not be identifable in Google Analytics!';
 $lang['track_links'] = 'Track outgoing links.';
 $lang['domainName'] = 'Configure the cookie domain. Should usually be left empty';
-$lang['debug'] = 'Debug mode: Send the hits to the console';
-
