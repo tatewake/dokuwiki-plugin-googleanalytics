@@ -1,12 +1,16 @@
 <?php
-if(!defined('DOKU_INC')) die();
-if(!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN', DOKU_INC . 'lib/plugins/');
+if (!defined('DOKU_INC')) {
+    die();
+}
+if (!defined('DOKU_PLUGIN')) {
+    define('DOKU_PLUGIN', DOKU_INC . 'lib/plugins/');
+}
 
 /**
  * Class action_plugin_googleanalytics
  */
-class action_plugin_googleanalytics extends DokuWiki_Action_Plugin {
-
+class action_plugin_googleanalytics extends DokuWiki_Action_Plugin
+{
     private $gaEnabled = true;
 
     /**
@@ -14,7 +18,8 @@ class action_plugin_googleanalytics extends DokuWiki_Action_Plugin {
      *
      * @param Doku_Event_Handler $controller
      */
-    function register(Doku_Event_Handler $controller) {
+    public function register(Doku_Event_Handler $controller)
+    {
         $controller->register_hook('DOKUWIKI_STARTED', 'AFTER', $this, 'gaConfig');
     }
 
@@ -24,23 +29,32 @@ class action_plugin_googleanalytics extends DokuWiki_Action_Plugin {
      * @param Doku_Event $event
      * @param array $param
      */
-    public function gaConfig(Doku_Event $event, $param) {
+    public function gaConfig(Doku_Event $event, $param)
+    {
         global $JSINFO;
         global $INFO;
         global $ACT;
 
-        if(!$this->gaEnabled) return;
+        if (!$this->gaEnabled) {
+            return;
+        }
         $trackingId = $this->getConf('GAID');
-        if(!$trackingId) return;
-        if($this->getConf('dont_count_admin') && $INFO['isadmin']) return;
-        if($this->getConf('dont_count_users') && $_SERVER['REMOTE_USER']) return;
+        if (!$trackingId) {
+            return;
+        }
+        if ($this->getConf('dont_count_admin') && $INFO['isadmin']) {
+            return;
+        }
+        if ($this->getConf('dont_count_users') && $_SERVER['REMOTE_USER']) {
+            return;
+        }
         act_clean($ACT);
 
         $options = array();
-        if($this->getConf('track_users') && $_SERVER['REMOTE_USER']) {
+        if ($this->getConf('track_users') && $_SERVER['REMOTE_USER']) {
             $options['userId'] = md5(auth_cookiesalt() . 'googleanalytics' . $_SERVER['REMOTE_USER']);
         }
-        if($this->getConf('domainName')) {
+        if ($this->getConf('domainName')) {
             $options['cookieDomain'] = $this->getConf('domainName');
             $options['legacyCookieDomain'] = $this->getConf('domainName');
         }
@@ -62,7 +76,8 @@ class action_plugin_googleanalytics extends DokuWiki_Action_Plugin {
      *
      * @return string
      */
-    protected function getPageView() {
+    protected function getPageView()
+    {
         global $QUERY;
         global $ID;
         global $INPUT;
@@ -70,18 +85,26 @@ class action_plugin_googleanalytics extends DokuWiki_Action_Plugin {
 
         // clean up parameters to log
         $params = $_GET;
-        if(isset($params['do'])) unset($params['do']);
-        if(isset($params['id'])) unset($params['id']);
+        if (isset($params['do'])) {
+            unset($params['do']);
+        }
+        if (isset($params['id'])) {
+            unset($params['id']);
+        }
 
         // decide on virtual views
-        if($ACT == 'search') {
+        if ($ACT == 'search') {
             $view = '~search/';
             $params['q'] = $QUERY;
-        } elseif($ACT == 'admin') {
+        } elseif ($ACT == 'admin') {
             $page = $INPUT->str('page');
             $view = '~admin';
-            if($page) $view .= '/' . $page;
-            if(isset($params['page'])) unset($params['page']);
+            if ($page) {
+                $view .= '/' . $page;
+            }
+            if (isset($params['page'])) {
+                unset($params['page']);
+            }
         } else {
             $view = str_replace(':', '/', $ID); // slashes needed for Content Drilldown
         }
@@ -91,7 +114,9 @@ class action_plugin_googleanalytics extends DokuWiki_Action_Plugin {
 
         // append query parameters
         $query = http_build_query($params, '', '&');
-        if($query) $view .= '?' . $query;
+        if ($query) {
+            $view .= '?' . $query;
+        }
 
         return $view;
     }
