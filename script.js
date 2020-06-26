@@ -6,10 +6,10 @@
  */
 if (JSINFO.ga) {
     /* default google tracking initialization */
-    (function (i, s, o, g, r, a, m) {
+    (function(i, s, o, g, r, a, m) {
         i['GoogleAnalyticsObject'] = r;
         //noinspection CommaExpressionJS
-        i[r] = i[r] || function () {
+        i[r] = i[r] || function() {
             (i[r].q = i[r].q || []).push(arguments)
         }, i[r].l = 1 * new Date();
         //noinspection CommaExpressionJS
@@ -43,7 +43,7 @@ if (JSINFO.ga) {
             var originalSendHitTask = tracker.get('sendHitTask');
 
             // Overwrite and add an output to the console
-            tracker.set( 'sendHitTask', function (model) {
+            tracker.set('sendHitTask', function(model) {
                 originalSendHitTask(model);
                 console.log("Doku Google Analytics Plugin Debug: Hit Payload: " + model.get('hitPayload'));
             });
@@ -55,9 +55,9 @@ if (JSINFO.ga) {
     // track outgoing links, once the document was loaded
     if (JSINFO.ga.trackOutboundLinks) {
 
-        jQuery(function () {
+        jQuery(function() {
             // https://support.google.com/analytics/answer/1136920?hl=en
-            jQuery('a.urlextern, a.interwiki').click(function () {
+            jQuery('a.urlextern, a.interwiki').click(function() {
                 var url = this.href;
                 if (ga && ga.loaded) {
                     ga('send', 'event', 'outbound', 'click', url, {
