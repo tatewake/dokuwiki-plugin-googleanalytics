@@ -1,0 +1,34 @@
+# Changelog
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [Unreleased]
+
+### Added
+### Changed
+### Removed
+### Fixed
+
+## [1.0.0] - 2020-06-25
+
+### Added
+
+- [DPG-19] - Added this CHANGELOG.md, rewrote README.md and first official version number 1.0.0 and release date to 2020-06-25
+
+### Changed
+
+- [DPG-17] - Auto-reformatted PHP and JS files with [php-cs-fixer](https://github.com/FriendsOfPHP/PHP-CS-Fixer) and [js-beautify](https://www.npmjs.com/package/js-beautify)
+
+### Fixed
+
+- [DPG-15] - Fixed an issue where "blank target" was not respected when clicking on a new link
+
+## 
+
+[1.0.0]: https://github.com/tatewake/dokuwiki-plugin-googleanalytics/releases/tag/1.0.0
+
+[DPG-19]: https://github.com/tatewake/dokuwiki-plugin-googleanalytics/issues/19
+[DPG-17]: https://github.com/tatewake/dokuwiki-plugin-googleanalytics/issues/17
+[DPG-15]: https://github.com/tatewake/dokuwiki-plugin-googleanalytics/issues/15
