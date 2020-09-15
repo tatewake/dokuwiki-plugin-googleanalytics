@@ -11,6 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 ### Fixed
 
+## [1.0.1] - 2020-09-14
+
+### Added
+
+- [DPG-20] - Added admin page, icon, and menu text for DokuWiki's administration page; 
+
 ## [1.0.0] - 2020-06-25
 
 ### Added
@@ -27,8 +33,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 
 
+[1.0.1]: https://github.com/tatewake/dokuwiki-plugin-googleanalytics/releases/tag/1.0.1
 [1.0.0]: https://github.com/tatewake/dokuwiki-plugin-googleanalytics/releases/tag/1.0.0
 
+[DPG-20]: http://192.168.1.150/open-source/dokuwiki/googleanalytics/-/issues/20
 [DPG-19]: https://github.com/tatewake/dokuwiki-plugin-googleanalytics/issues/19
 [DPG-17]: https://github.com/tatewake/dokuwiki-plugin-googleanalytics/issues/17
 [DPG-15]: https://github.com/tatewake/dokuwiki-plugin-googleanalytics/issues/15

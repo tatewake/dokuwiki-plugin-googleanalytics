@@ -7,8 +7,12 @@ if (!defined('DOKU_PLUGIN')) {
 }
 
 /**
- * Class action_plugin_googleanalytics
+ * Google Analytics for DokuWiki
+ *
+ * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
+ * @author     Terence J. Grant<tjgrant@tatewake.com>
  */
+
 class action_plugin_googleanalytics extends DokuWiki_Action_Plugin
 {
     private $gaEnabled = true;
