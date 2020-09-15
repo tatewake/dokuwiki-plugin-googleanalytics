@@ -1,0 +1,28 @@
+====== Google Analytics for DokuWiki ======
+
+===== About =====
+
+This tool allows you to set a code for use with [[https://en.wikipedia.org/wiki/Google_Analytics|Google Analytics]], which allows you to track your visitors.
+
+===== Setup =====
+
+The plugin also exports a function for use with your template, so you will have to insert the following code into your template's **main.php**, somewhere inside of the ''<head></head>'' tags.
+
+<code php><?php
+if (file_exists(DOKU_PLUGIN.'googleanalytics/code.php')) include_once(DOKU_PLUGIN.'googleanalytics/code.php');
+if (function_exists('ga_google_analytics_code')) ga_google_analytics_code();
+?></code>
+
+**Note**: Inserting the code above is **required**, not optional.
+
+Set the options for this plugin via the **Configuration Settings** menu from the DokuWiki admin menu. (It will be near the bottom of the page.)
+
+===== For template developers =====
+
+You can insert the above code and make your template "Google Analytics Ready", even if your users do not use Google Analytics (or have this plugin.)
+
+===== Support =====
+
+For further support or discussion, please see the official plugin page [[doku>plugin:googleanalytics|here]].
+
+If you find this plugin useful, please consider supporting the project via [[http://tjgrant.com/wiki/donate|Donations]] or [[https://github.com/sponsors/tatewake|Sponsorships]]; thank you!
