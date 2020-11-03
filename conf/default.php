@@ -1,6 +1,7 @@
 <?php
 
 $conf['GAID'] = '';
+$conf['GTAGID'] = '';
 $conf['dont_count_admin'] = 0;
 $conf['dont_count_users'] = 0;
 $conf['anonymize'] = 1;

@@ -43,9 +43,12 @@ class action_plugin_googleanalytics extends DokuWiki_Action_Plugin
             return;
         }
         $trackingId = $this->getConf('GAID');
-        if (!$trackingId) {
+        $gtagId = $this->getConf('GTAGID');
+
+        if (!$trackingId && !$gtagId) {
             return;
         }
+        
         if ($this->getConf('dont_count_admin') && $INFO['isadmin']) {
             return;
         }
@@ -66,6 +69,7 @@ class action_plugin_googleanalytics extends DokuWiki_Action_Plugin
         global $conf;
         $JSINFO['ga'] = array(
             'trackingId' => $trackingId,
+            'gtagId' => $gtagId,
             'anonymizeIp' => (bool) $this->getConf('anonymize'),
             'action' => $ACT,
             'trackOutboundLinks' => (bool) $this->getConf('track_links'),

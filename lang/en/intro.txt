@@ -6,20 +6,28 @@ This tool allows you to set a code for use with [[https://en.wikipedia.org/wiki/
 
 ===== Setup =====
 
-The plugin also exports a function for use with your template, so you will have to insert the following code into your template's **main.php**, somewhere inside of the ''<head></head>'' tags.
-
-<code php><?php
-if (file_exists(DOKU_PLUGIN.'googleanalytics/code.php')) include_once(DOKU_PLUGIN.'googleanalytics/code.php');
-if (function_exists('ga_google_analytics_code')) ga_google_analytics_code();
-?></code>
-
-**Note**: Inserting the code above is **required**, not optional.
+This plugin generates JavaScript code that is automatically included into your site via the ''lib/exe/js.php'' file. (Which you can inspect via your browser's "developer tools.")
 
 Set the options for this plugin via the **Configuration Settings** menu from the DokuWiki admin menu. (It will be near the bottom of the page.)
 
-===== For template developers =====
+You may use one of two tracking options:
 
-You can insert the above code and make your template "Google Analytics Ready", even if your users do not use Google Analytics (or have this plugin.)
+  * **Basic** "Google Analytics ID" (also known as "[[https://developers.google.com/analytics/devguides/collection/analyticsjs|analytics.js]]") using a **UA-XXXXXX-XX** code
+  * **Newer** "Global Site Tag ID" (also known as "[[https://developers.google.com/analytics/devguides/collection/gtagjs|gtag.js]]") using a **G-XXXXXXXXXX** code
+
+If you set a "Global Site Tag ID", then this method will be used and any "Google Analytics ID" / **UA-XXXXXXX-XX** specific settings will be ignored.
+
+===== Advanced Usage =====
+
+To use the advanced "tagging" features of ''analytics.js'' or ''gtag.js'', you will need to be able to embed JavaScript within your DokuWiki pages. You can accomplish this in one of three ways:
+
+  * [[:wiki:syntax#embedding_html_and_php|Enabling embedded HTML]] in your local DokuWiki instance (Look for ''htmlok'' in Configuration Settings)
+  * Allow embedded JavaScript via a plugin like the [[doku>plugin:inlinejs|InlineJS Plugin]]
+  * Edit your site's template to add "tagging" directly
+
+Allowing embedded HTML / JavaScript will give you the most flexibility for per-page tagging, but it can open your site to [[https://en.wikipedia.org/wiki/Cross-site_scripting|Cross-site Scripting]] attacks if you're not careful. If you lock down who can edit your wiki pages and trust your users, you should be fine though.
+
+If you edit your template (the third option), make sure to make notes of what you change, as "upgrading" your template will revert any changes you've made.
 
 ===== Support =====
 
